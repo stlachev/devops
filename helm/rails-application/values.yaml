@@ -1,0 +1,75 @@
+postgresqlUser: "demouser"
+postgresqlUserPassword: "example"
+posgresqlDB: "rails-app_development"
+contentapiurl: "http://content-api-service.default.svc.cluster.local:4567/image_url.json"
+databeseUrl: "postgres://demouser:example@postgres-service.default.svc.cluster.local:5432/rails-app_development"
+fullnameOverride: false
+nameOverride: false
+
+ingress:
+  enabled: true
+  ingressClassName: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/load-balancer-name: rails-ingress
+    alb.ingress.kubernetes.io/subnets: public-eu-central-1a, public-eu-central-1b
+
+postgres:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 5432
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432
+
+contentapi:
+  replicaCount: 1
+  image:
+    repository: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/content-api
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 4567
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: ClusterIP
+    port: 4567
+    targetPort: 4567
+
+railsapp:
+  replicaCount: 1
+  image:
+    repository: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/rails-app
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 3000
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 3000
+  job:
+    backoffLimit: 4
+    restartPolicy: OnFailure
+
+worker:
+  replicaCount: 1
+  image:
+    repository: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/worker
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 4567
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""

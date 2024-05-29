@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rails-migrations
+spec:
+  backoffLimit: 4
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+      - name: rails-app
+        image: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/rails-app:latest
+        command: [ "bundle", "exec", "rails", "db:migrate" ]
+        env:
+          - name: DATABASE_URL
+            value: "postgres://demouser:example@postgres-service.default.svc.cluster.local:5432/rails-app_development"
+      restartPolicy: OnFailure
