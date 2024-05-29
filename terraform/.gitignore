@@ -1,7 +1,3 @@
-notused/*
-terraform/.terraform/*
-terraform/.terraform.lock.hcl
-terraform/.terraform.tfstate.lock.info
 # Local .terraform directories
 **/.terraform/*
 
