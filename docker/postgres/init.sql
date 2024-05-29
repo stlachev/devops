@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS dummies (
+   id SERIAL PRIMARY KEY,
+   message VARCHAR NOT NULL
+);
