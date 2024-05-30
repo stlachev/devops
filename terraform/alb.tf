@@ -3,30 +3,6 @@ provider "helm" {
     config_path = "~/.kube/config"
   }
 }
-//aws eks --region eu-central-1 update-kubeconfig --name demo
-
-/*
-resource "helm_release" "ingress" {
-  name       = "ingress"
-  chart      = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  version    = "1.4.6"
-
-  set {
-    name  = "autoDiscoverAwsRegion"
-    value = "true"
-  }
-  set {
-    name  = "autoDiscoverAwsVpcID"
-    value = "true"
-  }
-  set {
-    name  = "clusterName"
-    value = aws_eks_cluster.cluster.id
-  }
-  depends_on = [aws_eks_fargate_profile.kube-system]
-}
-*/
 
 resource "helm_release" "aws-load-balancer-controller" {
   name = "aws-load-balancer-controller"
@@ -64,5 +40,3 @@ resource "helm_release" "aws-load-balancer-controller" {
   }
   depends_on = [aws_eks_fargate_profile.kube-system]
 }
-
-//aws eks update-kubeconfig --name demo --region eu-central-1

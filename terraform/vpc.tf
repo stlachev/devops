@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-central-1"
+  region = var.aws_region_name
 }
 
 resource "aws_vpc" "main" {
@@ -11,28 +11,6 @@ resource "aws_vpc" "main" {
   tags = {
     Name = "main"
   }
-}
-
-variable "cluster_name" {
-  default = "demo"
-}
-
-variable "availability_zones" {
-  type    = list(string)
-  description = "Availability Zones"
-  default = ["eu-central-1a", "eu-central-1b"]
-}
-
-variable "public_subnet_cidrs" {
-  type    = list(string)
-  description = "Public subnet CIDRs"
-  default = ["10.0.0.0/24", "10.0.1.0/24"]
-}
-
-variable "private_subnet_cidrs" {
-  type    = list(string)
-  description = "Private subnet CIDRs"
-  default = ["10.0.10.0/24", "10.0.11.0/24"]
 }
 
 resource "aws_subnet" "public_subnet" {

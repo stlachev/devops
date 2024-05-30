@@ -61,7 +61,7 @@ resource "aws_eks_fargate_profile" "kube-system" {
     namespace = "kube-system"
   }
   provisioner "local-exec" {
-    command = "aws eks --region eu-central-1 update-kubeconfig --name ${var.cluster_name}"
+    command = "aws eks --region ${var.aws_region_name} update-kubeconfig --name ${var.cluster_name}"
   }
 }
 
@@ -107,7 +107,6 @@ resource "aws_iam_role" "aws_load_balancer_controller" {
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
-//  policy = file("./AWSLoadBalancerController.json")
   policy = file("./iam-policy.json")
   name   = "AWSLoadBalancerController"
 }
