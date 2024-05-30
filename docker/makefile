@@ -2,8 +2,7 @@
 REPO_NAME := $(AWS_ACCOUNT) #used from login.sh
 #REPO_NAME := 123456789012.dkr.ecr.eu-central-1.amazonaws.com #can be declared also here
 VERSION := latest
-REGION := $(AWS_REGION)
-#REGION := eu-central-1
+AWS_DEFAULT_REGION := "eu-central-1"
 
 COMPONENTS := rails-app content-api worker postgres
 
@@ -19,7 +18,7 @@ tag-images:
 
 create-repo:
 	for component in $(COMPONENTS); do \
-		aws ecr create-repository --repository-name $${component} --region $(REGION); \
+		aws ecr create-repository --repository-name $${component} --region $(AWS_DEFAULT_REGION); \
 	done
 
 push-images:
