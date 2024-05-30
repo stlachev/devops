@@ -4,7 +4,7 @@ REPO_NAME := $(AWS_ACCOUNT) #used from login.sh
 VERSION := latest
 AWS_DEFAULT_REGION := "eu-central-1"
 
-COMPONENTS := rails-app content-api worker postgres
+COMPONENTS := rails-app content-api worker
 
 build-images:
 	for component in $(COMPONENTS); do \

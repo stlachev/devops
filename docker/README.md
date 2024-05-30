@@ -16,14 +16,8 @@ Each of these components runs in its own container. The Ruby on Rails applicatio
 Deploying this application to the [MoJ cloud platform][cloudplatform] demonstrates the following deployment requirements:
 
 * Deploying multiple, inter-dependent containers
-* Setting up an RDS instance
-* Adding deployment secrets (the RDS database credentials)
 * Running database migrations
-* Putting HTTP basic authentication in front of development apps. on *.service.justice.gov.uk domains
 
-For the HTTP basic authentication, the default user is 'myuser' with password 'password123'.
-
-See the tutorial on [adding basic authentication] for details of how to change this.
 
 ## Running the application locally
 
@@ -48,8 +42,8 @@ If you refresh the page, you should see a different cat picture (the URL of whic
 
 Every ten seconds, the displayed message should change (you will need to refresh the browser to see the change), when the worker updates the information in the database.
 
-[cloudplatform]: https://github.com/ministryofjustice/cloud-platform
-[docker]: https://docker.io
-[docker-compose]: https://docs.docker.com/compose/
-[rds]: https://aws.amazon.com/rds/
-[adding basic authentication]: https://user-guide.cloud-platform.service.justice.gov.uk/tasks.html#add-http-basic-authentication
+* [cloudplatform](https://github.com/ministryofjustice/cloud-platform)
+* [docker](https://docker.io)
+* [docker-compose](https://docs.docker.com/compose/)
+* [rds](https://aws.amazon.com/rds/)
+* [adding basic authentication](https://user-guide.cloud-platform.service.justice.gov.uk/tasks.html#add-http-basic-authentication)
