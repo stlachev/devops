@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: rails-app
-        image: "{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
+        image: "{{ .Values.account }}/{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
         imagePullPolicy: {{ .Values.railsapp.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.railsapp.containerPort }}

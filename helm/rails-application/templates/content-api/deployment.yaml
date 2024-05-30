@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: content-api
-          image: "{{ .Values.contentapi.image.repository }}:{{ .Values.contentapi.image.tag }}"
+          image: "{{ .Values.account }}/{{ .Values.contentapi.image.repository }}:{{ .Values.contentapi.image.tag }}"
           imagePullPolicy: {{ .Values.contentapi.image.pullPolicy }}
           ports:
           - containerPort: {{ .Values.contentapi.containerPort }}

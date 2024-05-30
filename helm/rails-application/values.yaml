@@ -3,6 +3,7 @@ postgresqlUserPassword: "example"
 posgresqlDB: "rails-app_development"
 contentapiurl: "http://content-api-service.default.svc.cluster.local:4567/image_url.json"
 databeseUrl: "postgres://demouser:example@postgres-service.default.svc.cluster.local:5432/rails-app_development"
+account: "637423538949.dkr.ecr.eu-central-1.amazonaws.com"
 fullnameOverride: false
 nameOverride: false
 
@@ -33,7 +34,7 @@ postgres:
 contentapi:
   replicaCount: 1
   image:
-    repository: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/content-api
+    repository: content-api
     tag: latest
     pullPolicy: IfNotPresent
   containerPort: 4567
@@ -48,7 +49,7 @@ contentapi:
 railsapp:
   replicaCount: 1
   image:
-    repository: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/rails-app
+    repository: rails-app
     tag: latest
     pullPolicy: IfNotPresent
   containerPort: 3000
@@ -66,7 +67,7 @@ railsapp:
 worker:
   replicaCount: 1
   image:
-    repository: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/worker
+    repository: worker
     tag: latest
     pullPolicy: IfNotPresent
   containerPort: 4567

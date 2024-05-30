@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: rails-app
-        image: "{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
+        image: "{{ .Values.account }}/{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
         command: [ "bundle", "exec", "rails", "db:migrate" ]
         env:
         - name: DATABASE_URL
