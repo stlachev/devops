@@ -1,7 +1,9 @@
 # aws cli must be install for create-repo
-REPO_NAME := 637423538949.dkr.ecr.eu-central-1.amazonaws.com
+REPO_NAME := $(AWS_ACCOUNT) #used from login.sh
+#REPO_NAME := 123456789012.dkr.ecr.eu-central-1.amazonaws.com #can be declared also here
 VERSION := latest
-REGION := eu-central-1
+REGION := $(AWS_REGION)
+#REGION := eu-central-1
 
 COMPONENTS := rails-app content-api worker postgres
 
@@ -27,6 +29,7 @@ push-images:
 
 build-tag-and-push:
 	make build-images
-#	make tag-images
-#	create-repo
+	make tag-images
+#only once create-repo
+	create-repo
 	make push-images
