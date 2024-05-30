@@ -30,7 +30,9 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres
+# Can be used also from central repository of postgres
+#       image: postgres
+        image: 637423538949.dkr.ecr.eu-central-1.amazonaws.com/postgres
         ports:
         - containerPort: 5432
         env:
