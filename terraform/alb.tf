@@ -32,7 +32,7 @@ resource "helm_release" "aws-load-balancer-controller" {
   }
   set {
     name  = "region"
-    value = "eu-central-1"
+    value = var.aws_region_name
   }
   set {
     name  = "vpcId"
