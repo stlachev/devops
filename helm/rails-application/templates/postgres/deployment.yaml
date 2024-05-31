@@ -17,9 +17,11 @@ spec:
     spec:
       containers:
       - name: postgres
-# Can be used also from central repository of postgres
-#       image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+        {{ if .Values.postgresECS }}
         image: "{{ .Values.account }}/{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+        {{ else }}
+        image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+        {{ end }}
         imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.postgres.containerPort }}

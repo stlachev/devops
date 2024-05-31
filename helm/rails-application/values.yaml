@@ -6,6 +6,7 @@ databeseUrl: "postgres://demouser:example@postgres-service.default.svc.cluster.l
 account: "637423538949.dkr.ecr.eu-central-1.amazonaws.com"
 fullnameOverride: false
 nameOverride: false
+postgresECS: true
 
 ingress:
   enabled: true
