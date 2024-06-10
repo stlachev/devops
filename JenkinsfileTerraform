@@ -1,0 +1,57 @@
+properties([parameters([choice(choices: ['plan', 'apply', 'destroy'], name: 'Terraform_Action')])])
+pipeline {
+    agent any
+    stages {
+        stage('Preparing') {
+            steps {
+                sh 'echo Preparing'
+            }
+        }
+        stage('Git Pulling') {
+            steps {
+                //withCredentials([gitUsernamePassword(credentialsId: 'git_credential', gitToolName: 'git-tool')]) {
+                script {
+                    git branch: 'main', 
+                        credentialsId: 'git_credential',
+                        url: 'https://github.com/stlachev/devops.git'
+                    sh 'ls'
+                }
+            }
+        }
+        stage('Init') {
+            steps {
+                sh 'cd terraform'
+                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
+                    script {
+                       '''
+                         pwd
+                         terraform init --lock=false
+                       '''
+                    }
+                }
+            }
+        }
+        stage('Action') {
+            steps {
+                echo "${params.Terraform_Action}"
+                sh 'cd terraform'
+                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
+                    script {
+                        '''
+                            terraform get -update
+                            if (params.Terraform_Action == 'plan') {
+                                sh 'terraform plan --lock=false'
+                            }   else if (params.Terraform_Action == 'apply') {
+                                sh 'terraform apply --lock=false -auto-approve'
+                            }   else if (params.Terraform_Action == 'destroy') {
+                                sh 'terraform destroy --lock=false -auto-approve'
+                            } else {
+                                error "Invalid value for Terraform_Action: ${params.Terraform_Action}"
+                            }
+                        '''
+                    }    
+                }
+            }
+        }
+    }
+}
