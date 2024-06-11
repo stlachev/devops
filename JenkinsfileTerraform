@@ -21,14 +21,14 @@ pipeline {
         stage('Init') {
             steps {
                 sh 'cd terraform'
-                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
+        //        withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
                        '''
                          pwd
                          terraform init --lock=false
                        '''
                     }
-                }
+        //        }
             }
         }
         stage('Action') {
