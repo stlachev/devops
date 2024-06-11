@@ -1,0 +1,53 @@
+properties([parameters([choice(choices: ['install', 'delete'], name: 'Helm_Action')])])
+pipeline {
+    agent any
+    options {
+        ansiColor('xterm')
+    }
+    stages {
+        stage('Preparing') {
+            steps {
+                sh 'echo Preparing'
+            }
+        }
+        stage('Git Pulling') {
+            steps {
+                script {
+                    git branch: 'main', 
+                        credentialsId: 'git_credential',
+                        url: 'https://github.com/stlachev/devops.git'
+                    sh 'ls'
+                }
+            }
+        }
+/*
+        stage('Init') {
+            steps {
+                sh 'cd terraform'
+                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
+                    script {
+                       '''
+                         pwd
+                         terraform init --lock=false
+                       '''
+                    }
+                }
+            }
+        }
+*/
+        stage('Action') {
+            steps {
+                echo "Processing: helm ${params.Helm_Action}"
+                script {
+                    if (params.Helm_Action == 'install') {
+                        sh 'cd helm && helm install rails-application . --values values.yaml'
+                    }   else if (params.Helm_Action == 'delete') {
+                        sh 'cd helm && helm delete rails-application'
+                    } else {
+                        error "Invalid value for Helm_Action: ${params.Helm_Action}"
+                    }
+                }    
+            }
+        }
+    }
+}
