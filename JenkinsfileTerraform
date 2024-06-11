@@ -25,8 +25,8 @@ pipeline {
                     steps {
 //                        '''
                             sh 'cd terraform'
-                            pwd
-                            terraform init --lock=false
+                            sh 'pwd'
+                            sh 'terraform init --lock=false'
 //                        '''
                     }
                 }
