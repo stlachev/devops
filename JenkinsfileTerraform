@@ -20,16 +20,16 @@ pipeline {
         }
         stage('Init') {
             steps {
-//                sh 'cd terraform'
-        //        withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
-                script {
-                    '''
-                        sh 'cd terraform'
-                        pwd
-                        terraform init --lock=false
-                    '''
+                sh 'cd terraform'
+                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
+                    steps {
+//                        '''
+                            sh 'cd terraform'
+                            pwd
+                            terraform init --lock=false
+//                        '''
+                    }
                 }
-        //        }
             }
         }
         stage('Action') {
