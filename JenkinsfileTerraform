@@ -1,6 +1,9 @@
 properties([parameters([choice(choices: ['plan', 'apply', 'destroy'], name: 'Terraform_Action')])])
 pipeline {
     agent any
+    options {
+        ansiColor('xterm')
+    }
     stages {
         stage('Preparing') {
             steps {
