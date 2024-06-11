@@ -40,9 +40,9 @@ pipeline {
                 echo "Processing: helm ${params.Helm_Action}"
                 script {
                     if (params.Helm_Action == 'install') {
-                        sh 'cd helm && helm install rails-application . --values values.yaml'
+                        sh 'cd helm/rails-application && helm install rails-application . --values values.yaml'
                     }   else if (params.Helm_Action == 'delete') {
-                        sh 'cd helm && helm delete rails-application'
+                        sh 'cd helm/rails-application && helm delete rails-application'
                     } else {
                         error "Invalid value for Helm_Action: ${params.Helm_Action}"
                     }
