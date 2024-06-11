@@ -22,8 +22,8 @@ pipeline {
             steps {
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-                        sh 'cd terraform'
-                        sh 'terraform init --lock=true'
+//                        sh 'cd terraform'
+                        sh 'cd terraform && terraform init --lock=true'
                     }
                 }
             }
@@ -33,8 +33,8 @@ pipeline {
                 echo "Performing: terraform ${params.Terraform_Action}"
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-                        sh 'cd terraform'
-                        sh 'terraform get -update'
+//                        sh 'cd terraform'
+                        sh 'cd terraform && terraform get -update'
                         if (params.Terraform_Action == 'plan') {
                             sh 'terraform plan --lock=true'
                         }   else if (params.Terraform_Action == 'apply') {
