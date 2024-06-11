@@ -22,7 +22,6 @@ pipeline {
             steps {
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-//                        sh 'cd terraform'
                         sh 'cd terraform && terraform init --lock=true'
                     }
                 }
@@ -33,14 +32,13 @@ pipeline {
                 echo "Performing: terraform ${params.Terraform_Action}"
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-//                        sh 'cd terraform'
                         sh 'cd terraform && terraform get -update'
                         if (params.Terraform_Action == 'plan') {
-                            sh 'terraform plan --lock=true'
+                            sh 'cd terraform && terraform plan --lock=true'
                         }   else if (params.Terraform_Action == 'apply') {
-                            sh 'terraform apply --lock=true -auto-approve'
+                            sh 'cd terraform && terraform apply --lock=true -auto-approve'
                         }   else if (params.Terraform_Action == 'destroy') {
-                            sh 'terraform destroy --lock=true -auto-approve'
+                            sh 'cd terraform && terraform destroy --lock=true -auto-approve'
                         } else {
                             error "Invalid value for Terraform_Action: ${params.Terraform_Action}"
                         }
