@@ -22,11 +22,10 @@ pipeline {
             steps {
                 sh 'cd terraform'
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
-                    steps {
+                    script {
 //                        '''
-                            sh 'cd terraform'
-                            sh 'pwd'
-                            sh 'terraform init --lock=false'
+//                            sh 'pwd'
+                        sh 'terraform init --lock=false'
 //                        '''
                     }
                 }
