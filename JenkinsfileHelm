@@ -3,6 +3,8 @@ pipeline {
     agent any
     options {
         ansiColor('xterm')
+        // Only keep the 5 most recent builds
+        buildDiscarder(logRotator(numToKeepStr: '5'))
     }
     stages {
         stage('Preparing') {
@@ -20,21 +22,6 @@ pipeline {
                 }
             }
         }
-/*
-        stage('Init') {
-            steps {
-                sh 'cd terraform'
-                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
-                    script {
-                       '''
-                         pwd
-                         terraform init --lock=false
-                       '''
-                    }
-                }
-            }
-        }
-*/
         stage('Action') {
             steps {
                 echo "Processing: helm ${params.Helm_Action}"

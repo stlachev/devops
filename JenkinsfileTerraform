@@ -3,6 +3,8 @@ pipeline {
     agent any
     options {
         ansiColor('xterm')
+        // Only keep the 5 most recent builds
+        buildDiscarder(logRotator(numToKeepStr: '5'))
     }
     stages {
         stage('Preparing') {
@@ -12,7 +14,6 @@ pipeline {
         }
         stage('Git Pulling') {
             steps {
-                //withCredentials([gitUsernamePassword(credentialsId: 'git_credential', gitToolName: 'git-tool')]) {
                 script {
                     git branch: 'main', 
                         credentialsId: 'git_credential',
@@ -25,7 +26,7 @@ pipeline {
             steps {
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-                        sh 'cd terraform && terraform init --lock=true'
+                        sh 'terraform -chdir="./terraform" init --lock=true'
                     }
                 }
             }
@@ -35,13 +36,13 @@ pipeline {
                 echo "Performing: terraform ${params.Terraform_Action}"
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-                        sh 'cd terraform && terraform get -update'
+                        sh 'terraform -chdir="./terraform" get -update'
                         if (params.Terraform_Action == 'plan') {
-                            sh 'cd terraform && terraform plan --lock=true'
+                            sh 'terraform -chdir="./terraform" plan --lock=true'
                         }   else if (params.Terraform_Action == 'apply') {
-                            sh 'cd terraform && terraform apply --lock=true -auto-approve'
+                            sh 'terraform -chdir="./terraform" apply --lock=true -auto-approve'
                         }   else if (params.Terraform_Action == 'destroy') {
-                            sh 'cd terraform && terraform destroy --lock=true -auto-approve'
+                            sh 'terraform -chdir="./terraform" destroy --lock=true -auto-approve'
                         } else {
                             error "Invalid value for Terraform_Action: ${params.Terraform_Action}"
                         }
