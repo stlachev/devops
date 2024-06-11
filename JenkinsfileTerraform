@@ -1,10 +1,12 @@
-properties([parameters([choice(choices: ['plan', 'apply', 'destroy'], name: 'Terraform_Action')])])
 pipeline {
     agent any
     options {
         ansiColor('xterm')
         // Only keep the 5 most recent builds
         buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+    parameters { 
+        choice(name: 'Terraform_Action', choices: ['plan', 'apply', 'destroy'], description: 'Actions in terraform') 
     }
     stages {
         stage('Preparing') {
