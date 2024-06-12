@@ -1,59 +1,57 @@
-terraform {
-    pipeline {
-        agent any
-        options {
-            ansiColor('xterm')
-            // Only keep the 5 most recent builds
-            buildDiscarder(logRotator(numToKeepStr: '5'))
+pipeline {
+    agent any
+    options {
+        ansiColor('xterm')
+        // Only keep the 5 most recent builds
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+    parameters { 
+        choice(name: 'Terraform_Action', choices: ['plan', 'apply', 'destroy'], description: 'Actions in terraform') 
+    }
+    tools {
+        terraform 'Terraform'
+    }
+    stages {
+        stage('Preparing') {
+            steps {
+                sh 'echo Preparing'
+            }
         }
-        parameters { 
-            choice(name: 'Terraform_Action', choices: ['plan', 'apply', 'destroy'], description: 'Actions in terraform') 
-        }
-        tools {
-            terraform 'Terraform'
-        }
-        stages {
-            stage('Preparing') {
-                steps {
-                    sh 'echo Preparing'
+        stage('Git Pulling') {
+            steps {
+                script {
+                    git branch: 'main', 
+                        credentialsId: 'git_credential',
+                        url: 'https://github.com/stlachev/devops.git'
+                    sh 'ls'
                 }
             }
-            stage('Git Pulling') {
-                steps {
+        }
+        stage('Init') {
+            steps {
+                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-                        git branch: 'main', 
-                            credentialsId: 'git_credential',
-                            url: 'https://github.com/stlachev/devops.git'
-                        sh 'ls'
+                        sh 'terraform -chdir="./terraform" init --lock=true'
                     }
                 }
             }
-            stage('Init') {
-                steps {
-                    withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
-                        script {
-                            sh 'terraform -chdir="./terraform" init --lock=true'
+        }
+        stage('Action') {
+            steps {
+                echo "Performing: terraform ${params.Terraform_Action}"
+                withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
+                    script {
+                        sh 'terraform -chdir="./terraform" get -update'
+                        if (params.Terraform_Action == 'plan') {
+                            sh 'terraform -chdir="./terraform" plan --lock=true'
+                        }   else if (params.Terraform_Action == 'apply') {
+                            sh 'terraform -chdir="./terraform" apply --lock=true -auto-approve'
+                        }   else if (params.Terraform_Action == 'destroy') {
+                            sh 'terraform -chdir="./terraform" destroy --lock=true -auto-approve'
+                        } else {
+                            error "Invalid value for Terraform_Action: ${params.Terraform_Action}"
                         }
-                    }
-                }
-            }
-            stage('Action') {
-                steps {
-                    echo "Performing: terraform ${params.Terraform_Action}"
-                    withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
-                        script {
-                            sh 'terraform -chdir="./terraform" get -update'
-                            if (params.Terraform_Action == 'plan') {
-                                sh 'terraform -chdir="./terraform" plan --lock=true'
-                            }   else if (params.Terraform_Action == 'apply') {
-                                sh 'terraform -chdir="./terraform" apply --lock=true -auto-approve'
-                            }   else if (params.Terraform_Action == 'destroy') {
-                                sh 'terraform -chdir="./terraform" destroy --lock=true -auto-approve'
-                            } else {
-                                error "Invalid value for Terraform_Action: ${params.Terraform_Action}"
-                            }
-                        }    
-                    }
+                    }    
                 }
             }
         }
