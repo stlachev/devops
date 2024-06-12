@@ -31,7 +31,7 @@ pipeline {
             steps {
                 withAWS(credentials: '56f0ac9b-0ef7-44a1-81a3-a3cf72459311', region: 'eu-central-1') {
                     script {
-                        sh 'terraform -chdir="./terraform" init --lock=true'
+                        sh 'terraform -chdir="./terraform" init --lock=true -reconfigure'
                     }
                 }
             }
