@@ -8,6 +8,9 @@ pipeline {
     parameters { 
         choice(name: 'Terraform_Action', choices: ['plan', 'apply', 'destroy'], description: 'Actions in terraform') 
     }
+    tools {
+        terraform 'Terraform'
+    }
     stages {
         stage('Preparing') {
             steps {
