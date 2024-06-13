@@ -4,6 +4,7 @@ notused/*
 terraform/.terraform/*
 terraform/.terraform.lock.hcl
 terraform/.terraform.tfstate.lock.info
+terraform/bucket
 # Local .terraform directories
 **/.terraform/*
 
