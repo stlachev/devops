@@ -4,6 +4,6 @@ terraform {
     key            = "terraform/terraform.tfstate"
 //    key = "main"
     region = "eu-central-1"
-    dynamodb_table = "my-dynamo-db-table-tf"
+//    dynamodb_table = "my-dynamo-db-table-tf"
   }
 }
