@@ -3,6 +3,7 @@ terraform {
     bucket = "my-bucket-2323"
     key    = "terraform/terraform.tfstate"
     region = "eu-central-1"
+    dynamodb_table = "tf-backend-lock"
 //    dynamodb_table = "my-dynamo-db-table-tf"
   }
 }
