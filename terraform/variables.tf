@@ -27,3 +27,25 @@ variable "private_subnet_cidrs" {
   description = "Private subnet CIDRs"
   default = ["10.0.10.0/24", "10.0.11.0/24"]
 }
+
+variable "ecr_repositories" {
+  description = "Map ECR repositories"
+  type        = map(any)
+  default = {
+    content-api = {
+      expiration_after_days = 14
+      scanning_enabled      = false
+      tag_mutability        = "MUTABLE"
+    },
+    rails-app = {
+      expiration_after_days = 14
+      scanning_enabled      = false
+      tag_mutability        = "MUTABLE"
+    },
+    worker = {
+      expiration_after_days = 14
+      scanning_enabled      = false
+      tag_mutability        = "MUTABLE"
+    }
+  }
+}
