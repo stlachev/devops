@@ -12,6 +12,23 @@ spec:
       labels:
         app: rails-app
     spec:
+      initContainers:
+      - name: rails-db-setup
+        image: "{{ .Values.account }}/{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
+        command: [ "bundle", "exec", "rails", "db:setup" ]
+        env:
+          - name: DATABASE_URL
+            value: {{ .Values.databeseUrl }}
+          - name: CONTENT_API_URL
+            value: {{ .Values.contentapiurl }}
+      - name: rails-db-migrate
+        image: "{{ .Values.account }}/{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
+        command: [ "bundle", "exec", "rails", "db:migrate" ]
+        env:
+          - name: DATABASE_URL
+            value: {{ .Values.databeseUrl }}
+          - name: CONTENT_API_URL
+            value: {{ .Values.contentapiurl }}
       containers:
       - name: rails-app
         image: "{{ .Values.account }}/{{ .Values.railsapp.image.repository }}:{{ .Values.railsapp.image.tag }}"
