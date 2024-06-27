@@ -60,9 +60,6 @@ resource "aws_eks_fargate_profile" "kube-system" {
   selector {
     namespace = "kube-system"
   }
-  provisioner "local-exec" {
-    command = "aws eks --region ${var.aws_region_name} update-kubeconfig --name ${var.cluster_name}"
-  }
 }
 
 resource "aws_eks_fargate_profile" "default" {
