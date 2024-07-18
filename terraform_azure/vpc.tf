@@ -63,9 +63,7 @@ resource "azurerm_nat_gateway" "nat" {
 //  public_ip_address_ids = [azurerm_public_ip.nat.id]
   sku_name = "Standard"
   idle_timeout_in_minutes = 10
-  //zones                   = ["1"]
-  //zones                   = []
-
+//  zones                   = ["1"]
   tags = {
     Name = "nat"
   }
@@ -114,7 +112,7 @@ resource "azurerm_subnet_route_table_association" "private_subnet_association" {
 }
 
 resource "azurerm_route" "public_route" {
-  count                   = length(var.subnet_names)
+//  count                   = length(var.subnet_names)
   name                    = "public-route"
   resource_group_name     = azurerm_resource_group.main.name
   route_table_name        = azurerm_route_table.public.name
@@ -123,11 +121,11 @@ resource "azurerm_route" "public_route" {
 }
 
 resource "azurerm_route" "private_route" {
-  count                   = length(var.subnet_names)
+//  count                   = length(var.subnet_names)
   name                    = "private-route"
   resource_group_name     = azurerm_resource_group.main.name
   route_table_name        = azurerm_route_table.private.name
   address_prefix          = "0.0.0.0/0"
   next_hop_type           = "VnetLocal" //"VirtualAppliance"
-  //next_hop_in_ip_address  = azurerm_nat_gateway.nat.private_ip_address
+//  next_hop_in_ip_address  = azurerm_nat_gateway.nat.private_ip_address
 }
