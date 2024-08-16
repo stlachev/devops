@@ -10,13 +10,13 @@ variable "resource_group_name" {
   default     = "azure-demo-rg"
 }
 
-/*
 variable "acrName" {
   type        = string
   description = "acrName"
   default    = "vehcal"
 }
 
+/*
 variable "acrResourceGroupName" {
   type        = string
   description = "acrResourceGroupName"

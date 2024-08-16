@@ -30,7 +30,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   resource_group_name = azurerm_resource_group.main.name
   dns_prefix          = var.cluster_name
 
-  node_resource_group = azurerm_resource_group.main.name
+  //node_resource_group = "demo_nodes"
   //public_network_access_enabled = false
   //private_cluster_enabled = true
 
