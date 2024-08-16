@@ -8,4 +8,5 @@ resource "helm_release" "ingress-nginx" {
   values = [
     file("ingress-nginx-values.yaml")
   ]
+  depends_on = [azurerm_kubernetes_cluster.main]
 }

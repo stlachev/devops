@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rails-ingress
+#  namespace: foo
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: ImplementationSpecific #Prefix
+            backend:
+              service:
+                name: rails-app-service
+                port:
+                  number: 3000
+            path: /
+
+# kubectl get service --namespace kube-system ingress-nginx-controller --output wide --watch            

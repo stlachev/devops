@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rails-app-service
+  labels:
+    app: rails-app-service
+spec:
+  ports:
+  - port: 3000
+    name: http
+    targetPort: 3000
+  selector:
+    app: rails-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rails-app
+  template:
+    metadata:
+      labels:
+        app: rails-app
+    spec:
+      containers:
+      - name: rails-app
+        image: vehcal.azurecr.io/rails-app:latest
+        ports:
+        - containerPort: 3000
+        env:
+          - name: DATABASE_URL
+            value: "postgres://demouser:example@postgres-service.default.svc.cluster.local:5432/rails-app_development"
+          - name: CONTENT_API_URL
+            value: "http://content-api-service.default.svc.cluster.local:4567/image_url.json"

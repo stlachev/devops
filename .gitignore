@@ -50,3 +50,6 @@ docker/login.sh
 
 terraform*/notused
 terraform*/aks
+terraform*/*.notused
+
+kubernetes*/*.notused

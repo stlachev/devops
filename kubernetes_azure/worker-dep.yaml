@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+      - name: worker
+        image: vehcal.azurecr.io/worker:latest
+        ports:
+        - containerPort: 4567
+        env:
+          - name: DATABASE_URL
+            value: "postgres://demouser:example@postgres-service.default.svc.cluster.local:5432/rails-app_development"
