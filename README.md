@@ -1,4 +1,4 @@
-# DevOps Example (AWS)
+# DevOps Example (AWS/Azure)
  
  * Docker containers ware build and pushed
  * Kubernetes used for deployments, services etc.
